@@ -42,15 +42,7 @@ app.use('/api/notification', notificationRoutes )
 
 
 
-app.use('/', (req,res, next) => {
-    res.status(404).json({
-        message: "Route Not Found"
-    })
-    next()
-})
 
-
-app.use(errHandler)
 
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static(path.resolve(__dirname, "frontend", "dist")))
@@ -59,6 +51,15 @@ if(process.env.NODE_ENV === 'production'){
         res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
     })
 }
+
+app.use('/', (req,res, next) => {
+    res.status(404).json({
+        message: "Route Not Found"
+    })
+})
+
+
+app.use(errHandler)
 
 
 app.listen(PORT, () => {
