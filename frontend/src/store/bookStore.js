@@ -1,8 +1,7 @@
 import axios from "axios";
 import { create } from "zustand";
 
-const API_URL = "http://localhost:3000/api/books";
-axios.defaults.withCredentials = true;
+
 
 export const useBookStore = create((set) => ({
   books: [],
@@ -16,14 +15,14 @@ export const useBookStore = create((set) => ({
     set({ isLoading: false, error: null, message: null });
 
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get('/api/books');
 
       const {  data, success } = response.data;
       set({ books: data, message: null });
 
       return { success };
     } catch (error) {
-      const errorMsg = error?.response.data.message || "Internal Server error";
+      const errorMsg = error?.response?.data?.message || "Internal Server error";
       set({ isLoading: false, error: null, message: errorMsg });
 
       return { message: errorMsg, success: false };
@@ -35,7 +34,7 @@ export const useBookStore = create((set) => ({
 
     
     try {
-      const response = await axios.get(`${API_URL}/${id}`);
+      const response = await axios.get(`/api/books/${id}`);
 
       const {  data, success } = response.data;
       set({ bookDetails: data, message: null });
@@ -61,7 +60,7 @@ export const useBookStore = create((set) => ({
     set({ isLoading: false, error: null, message: null });
 
     try {
-      const response = await axios.post(`${API_URL}`, {
+      const response = await axios.post(`/api`, {
         image,
         bookName,
         authorName,
@@ -94,7 +93,7 @@ export const useBookStore = create((set) => ({
     set({ isLoading: false, error: null, message: null });
 
     try {
-      const response = await axios.put(`${API_URL}/${id}`, {
+      const response = await axios.put(`/api/books/${id}`, {
         image,
         bookName,
         authorName,
@@ -119,7 +118,7 @@ export const useBookStore = create((set) => ({
     set({ isLoading: true, error: null, message: null });
 
     try {
-      const response = await axios.delete(`${API_URL}/${id}`);
+      const response = await axios.delete(`/api/books/${id}`);
 
       const { message, success } = response.data;
       set({ isLoading: false, message: null });
@@ -137,7 +136,7 @@ export const useBookStore = create((set) => ({
     set({ isLoading: false, error: null, message: null });
 
     try {
-      const response = await axios.get(`${API_URL}/stats`);
+      const response = await axios.get(`/api/books/stats`);
 
       const { message, books, borrowedBooks, availableBooks, success } =
         response.data;
@@ -164,7 +163,7 @@ export const useBookStore = create((set) => ({
     set({ isLoading: true, error: null, message: null });
 
     try {
-      const response = await axios.get(`${API_URL}/search?${searchTerm}`);
+      const response = await axios.get(`/api/books/search?${searchTerm}`);
 
       const { books } = response.data;
       set({ books: books, isLoading: false, message: null });
@@ -180,7 +179,7 @@ export const useBookStore = create((set) => ({
     set({ isLoading: true, error: null, message: null });
 
     try {
-      const response = await axios.patch(`${API_URL}/borrow/${id}`);
+      const response = await axios.patch(`/api/books/borrow/${id}`);
 
       const { message, success, data } = response.data;
       set({ isLoading: false, message: null, books: data });

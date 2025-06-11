@@ -41,6 +41,7 @@ const handleSubmit = async (e) => {
       setPassword('');
       setEmail('');
       navigate(route);
+      console.log('route path:', route)
     } else {
       toast.error('Error logging in');
     }

@@ -1,8 +1,8 @@
 import axios from "axios";
 import { create } from "zustand";
 
-const API_URL = 'http://localhost:3000/api/auth'
-axios.defaults.withCredentials = true;
+// const API_URL = 'http://localhost:3000/api/auth'
+// axios.defaults.withCredentials = true;
 
 
 export const useAuthStore = create((set) => ({
@@ -22,7 +22,7 @@ export const useAuthStore = create((set) => ({
         }
 
         try {
-            const response = await axios.post(`${API_URL}/register`, {
+            const response = await axios.post(`/api/auth/register`, {
                 fullName,password, email
             })
 
@@ -48,7 +48,7 @@ export const useAuthStore = create((set) => ({
         }
 
         try {
-            const response = await axios.post(`${API_URL}/login`, {
+            const response = await axios.post(`/api/auth/login`, {
                 email,password
             })
          
@@ -75,7 +75,7 @@ export const useAuthStore = create((set) => ({
        
 
         try {
-            const response = await axios.post(`${API_URL}/logout`)
+            const response = await axios.post(`/api/auth/logout`)
          
 
       const { message, success} = response.data
@@ -106,7 +106,7 @@ export const useAuthStore = create((set) => ({
                 set({isLoading:true, error: null, message: null, isFetchingUser: true})
 
         try {
-             const response = await axios.get(`${API_URL}/fetch-user`)
+             const response = await axios.get(`/api/auth/fetch-user`)
 
              const {message, success,data} = response.data
   set({ isLoading: false, message: message, isFetchingUser: false, user:data})
@@ -114,7 +114,7 @@ export const useAuthStore = create((set) => ({
             
         } catch (error) {
 
-                 const errMsg = error?.response?.data?.message || 'Error fetching user';
+  const errMsg = error?.response?.data?.message || 'Error fetching user';
     set({ message: errMsg, isLoading: false, isFetchingUser: false, user: null });
     return { message: errMsg, success: false };
             
